@@ -14,12 +14,12 @@
 <!-- ===================== APP HEADER ===================== -->
 <header class="app-header" role="banner">
   <div class="app-header__inner">
-    <div class="app-header__brand">
+    <button class="app-header__brand" id="btnHome" aria-label="Go to homepage">
       <span class="app-header__logo" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V11h6v10"/></svg>
       </span>
       <span class="app-header__name">MyPMO</span>
-    </div>
+    </button>
     <div class="app-header__actions">
       <button class="icon-btn" id="btnSearch" aria-label="Search">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -54,33 +54,14 @@
         </button>
       </div>
 
+      <div class="section-head"><h2 class="section-title">Quick actions</h2></div>
+      <div class="quick-grid" id="homeQuickActions"><!-- injected from favorites --></div>
+
       <div class="section-head">
         <h2 class="section-title">Recent activity</h2>
         <a href="#" class="link" data-nav="requests">More</a>
       </div>
       <div class="card-list" id="homeActivityList"><!-- injected --></div>
-
-      <div class="section-head"><h2 class="section-title">Quick actions</h2></div>
-      <div class="quick-grid">
-        <button class="quick-card" data-start-flow="reimbursement">
-          <span class="quick-card__icon">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v3a2 2 0 0 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 0 1 0-4V7a2 2 0 0 0-2-2z"/><path d="M9 9h6M9 13h6"/></svg>
-          </span>
-          <span class="quick-card__text">Request medical reimbursement</span>
-        </button>
-        <button class="quick-card" data-toast="Declare serious illness — flow not built in this prototype.">
-          <span class="quick-card__icon">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.4 3-5.5A4.5 4.5 0 0 0 12 5 4.5 4.5 0 0 0 2 8.5C2 10.6 3.5 12.5 5 14l7 7z"/></svg>
-          </span>
-          <span class="quick-card__text">Declare serious illness</span>
-        </button>
-        <button class="quick-card" data-toast="Declare bank account — flow not built in this prototype.">
-          <span class="quick-card__icon">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
-          </span>
-          <span class="quick-card__text">Declare bank account</span>
-        </button>
-      </div>
     </div>
   </section>
 
@@ -103,7 +84,7 @@
     <div class="screen__pad">
       <div class="chip-row" id="reqCategoryChips">
         <button class="catchip catchip--health is-active" data-cat="MyHealth">MyHealth</button>
-        <button class="catchip catchip--rights is-active" data-cat="MyRights">MyRights</button>
+        <button class="catchip catchip--rights" data-cat="MyRights">MyRights</button>
         <button class="catchip" data-cat="General">General</button>
       </div>
 
@@ -169,19 +150,10 @@
       </div>
 
       <div class="tabpane" data-pane="favorites">
-        <div class="action-list">
-          <button class="action-row" data-start-flow="reimbursement">
-            <span class="dot dot--blue"></span><span class="action-row__label">Request medical reimbursement</span>
-            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
-          </button>
-          <button class="action-row" data-toast="Declare serious illness — flow not built in this prototype.">
-            <span class="dot dot--blue"></span><span class="action-row__label">Declare serious illness</span>
-            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
-          </button>
-          <button class="action-row" data-toast="Declare bank account — flow not built in this prototype.">
-            <span class="dot dot--orange"></span><span class="action-row__label">Declare bank account</span>
-            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
-          </button>
+        <div class="action-list" id="favActionsList"></div>
+        <div class="empty empty--inline" id="favActionsEmpty" hidden>
+          <p class="empty__title">No favorites yet</p>
+          <p class="empty__text">Tap the star on any action under “All actions” to add it here.</p>
         </div>
       </div>
 
@@ -248,8 +220,8 @@
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
               Drag or <u>add files</u>
             </button>
-            <button class="scan-btn" data-scan aria-label="Scan document">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="scan-btn" data-scan aria-label="Take a photo of a document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
           </div>
         </div>
@@ -261,8 +233,8 @@
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
               Drag or <u>add files</u>
             </button>
-            <button class="scan-btn" data-scan aria-label="Scan document">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="scan-btn" data-scan aria-label="Take a photo of a document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
           </div>
         </div>
@@ -275,13 +247,12 @@
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
               Drag or <u>add files</u>
             </button>
-            <button class="scan-btn" data-scan aria-label="Scan document">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="scan-btn" data-scan aria-label="Take a photo of a document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
           </div>
         </div>
         <div class="flow-actions">
-          <button class="btn btn--ghost" data-scan-receipt>Scan receipt</button>
           <button class="btn btn--primary btn--block" data-flow-next="3">Continue</button>
         </div>
       </div>
@@ -312,25 +283,36 @@
       <div class="flow-step" data-flowstep="4" hidden>
         <h2 class="flow-title">My request</h2>
         <div class="review-summary">
-          <div class="review-summary__row"><span class="review-summary__k">Request date</span><span class="review-summary__v">25/06/2026</span></div>
-          <div class="review-summary__row"><span class="review-summary__k">Medical treatment period</span><span class="review-summary__v">20/06/2026</span></div>
-          <div class="review-summary__row"><span class="review-summary__k">Total requested amount</span><span class="review-summary__v">34.50 EUR</span></div>
+          <div class="review-summary__row review-summary__row--edit">
+            <div><span class="review-summary__k">Request date</span><span class="review-summary__v">25/06/2026</span></div>
+            <button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit request date">✎</button>
+          </div>
+          <div class="review-summary__row review-summary__row--edit">
+            <div><span class="review-summary__k">Medical treatment period</span><span class="review-summary__v">20/06/2026</span></div>
+            <button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit treatment period">✎</button>
+          </div>
+          <div class="review-summary__row review-summary__row--edit">
+            <div><span class="review-summary__k">Total requested amount</span><span class="review-summary__v">34.50 EUR</span></div>
+            <button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit amount">✎</button>
+          </div>
         </div>
         <div class="card review-block">
           <h3 class="review-block__title">Supporting details</h3>
-          <div class="review-line"><div><p class="review-line__k">Beneficiary</p><p class="review-line__v">Marie Peeters</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit">✎</button></div>
-          <div class="review-line"><div><p class="review-line__k">Treatment details</p><p class="review-line__v">GP Consultation</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit">✎</button></div>
+          <div class="review-line"><div><p class="review-line__k">Beneficiary</p><p class="review-line__v">Marie Peeters</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit beneficiary">✎</button></div>
+          <div class="review-line"><div><p class="review-line__k">Treatment details</p><p class="review-line__v">GP Consultation</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit treatment details">✎</button></div>
         </div>
-        <div class="card review-block">
-          <h3 class="review-block__title">Linked documents</h3>
-          <div class="review-doc"><span>Expense Document</span><span class="review-doc__go">›</span></div>
-          <div class="review-doc"><span>Supporting Document</span><span class="review-doc__go">›</span></div>
+        <div class="card review-block collapse collapse--card" data-collapse>
+          <button class="collapse__head collapse__head--card"><span>Linked documents</span><span class="collapse__chev" aria-hidden="true">⌃</span></button>
+          <div class="collapse__body">
+            <div class="review-doc"><span>Expense Document</span><span class="review-doc__go">›</span></div>
+            <div class="review-doc"><span>Supporting Document</span><span class="review-doc__go">›</span></div>
+          </div>
         </div>
-        <p class="flow-note">By submitting this request, you consent to the processing of your data and confirm that the information provided is accurate and complete.</p>
         <div class="flow-actions flow-actions--split">
           <button class="btn btn--ghost" disabled>Save as draft</button>
           <button class="btn btn--primary" id="btnSubmit">Submit</button>
         </div>
+        <p class="flow-note">By submitting this request, you consent to the processing of your data and confirm that the information provided is accurate and complete.</p>
       </div>
     </div>
   </section>
@@ -360,7 +342,7 @@
       </div>
       <div class="chip-row" id="docCategoryChips">
         <button class="catchip catchip--health is-active" data-cat="MyHealth">MyHealth</button>
-        <button class="catchip catchip--rights is-active" data-cat="MyRights">MyRights</button>
+        <button class="catchip catchip--rights" data-cat="MyRights">MyRights</button>
       </div>
       <div class="tabpane" data-pane="documents"><div class="card-list" id="docList"></div></div>
       <div class="tabpane" data-pane="cards" hidden>
@@ -503,8 +485,8 @@
     <p class="filter-group__label">Category</p>
     <div class="filter-options" id="filterCategory">
       <label class="check"><input type="checkbox" value="MyHealth" checked /><span>MyHealth</span></label>
-      <label class="check"><input type="checkbox" value="MyRights" checked /><span>MyRights</span></label>
-      <label class="check"><input type="checkbox" value="General" checked /><span>General</span></label>
+      <label class="check"><input type="checkbox" value="MyRights" /><span>MyRights</span></label>
+      <label class="check"><input type="checkbox" value="General" /><span>General</span></label>
     </div>
     <p class="filter-group__label">Sort by</p>
     <div class="filter-options" id="filterSort">

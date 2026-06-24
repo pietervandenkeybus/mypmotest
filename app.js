@@ -50,10 +50,30 @@
     { title: "Certificate 4", cat: "MyRights", sub: "Deactivated", type: "QR" },
   ];
 
-  const allActions = [
-    "Request medical reimbursement", "Declare serious illness", "Declare bank account",
-    "Declare occupational disease", "Declare accident", "Request health screening",
-    "Update family composition", "Request a certificate", "Manage direct billing",
+  // Action catalog. `fav` seeds the homepage Quick actions and Favorites tab.
+  // Only "Request medical reimbursement" launches the built flow; others toast.
+  const ICONS = {
+    reimbursement: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v3a2 2 0 0 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 0 1 0-4V7a2 2 0 0 0-2-2z"/><path d="M9 9h6M9 13h6"/></svg>',
+    illness: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.4 3-5.5A4.5 4.5 0 0 0 12 5 4.5 4.5 0 0 0 2 8.5C2 10.6 3.5 12.5 5 14l7 7z"/></svg>',
+    bank: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>',
+    disease: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>',
+    accident: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
+    screening: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+    family: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+    certificate: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.9 7 22l5-3 5 3-1.2-8.1"/></svg>',
+    billing: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>',
+  };
+
+  const actions = [
+    { id: "reimbursement", label: "Request medical reimbursement", icon: "reimbursement", flow: true, fav: true },
+    { id: "illness", label: "Declare serious illness", icon: "illness", flow: false, fav: true },
+    { id: "bank", label: "Declare bank account", icon: "bank", flow: false, fav: true },
+    { id: "disease", label: "Declare occupational disease", icon: "disease", flow: false, fav: false },
+    { id: "accident", label: "Declare accident", icon: "accident", flow: false, fav: false },
+    { id: "screening", label: "Request health screening", icon: "screening", flow: false, fav: false },
+    { id: "family", label: "Update family composition", icon: "family", flow: false, fav: false },
+    { id: "certificate", label: "Request a certificate", icon: "certificate", flow: false, fav: false },
+    { id: "billing", label: "Manage direct billing", icon: "billing", flow: false, fav: false },
   ];
 
   const faqs = [
@@ -121,11 +141,33 @@
       if (btn) btn.classList.add("is-active");
     }
     // render on entry
-    if (name === "home") renderActivity();
+    if (name === "home") { renderQuickActions(); renderActivity(); }
     if (name === "requests") renderRequests();
     if (name === "documents") { renderDocList(); renderCertList(); }
-    if (name === "new") { resetNewSearch(); renderAllActions(""); }
+    if (name === "new") { resetNewSearch(); renderActionPanes(""); }
     if (name === "flow") gotoStep(1, true);
+  }
+
+  /* ---------- Render: home quick actions (from favorites) ---------- */
+  function actionAttrs(a) {
+    return a.flow
+      ? `data-start-flow="${a.id}"`
+      : `data-toast="“${a.label}” is not built in this prototype."`;
+  }
+  function renderQuickActions() {
+    const wrap = $("#homeQuickActions");
+    const favs = actions.filter((a) => a.fav);
+    if (!favs.length) {
+      wrap.innerHTML = `<div class="empty empty--inline" style="grid-column:1/-1">
+        <p class="empty__title">No quick actions</p>
+        <p class="empty__text">Favorite an action under New request to pin it here.</p></div>`;
+      return;
+    }
+    wrap.innerHTML = favs.map((a) => `
+      <button class="quick-card" ${actionAttrs(a)}>
+        <span class="quick-card__icon">${ICONS[a.icon]}</span>
+        <span class="quick-card__text">${a.label}</span>
+      </button>`).join("");
   }
 
   /* ---------- Render: activity ---------- */
@@ -143,11 +185,10 @@
           ${item.meta ? `<p class="req-card__meta">${item.meta}</p>` : ""}
           <div class="req-card__chips">
             ${catChip(item.cat)}
-            ${statusChip(item.status)}
           </div>
         </div>
         <div class="req-card__right">
-          ${statusDot(item.status)}
+          ${statusChip(item.status) || "<span></span>"}
           <span class="req-card__go" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </span>
@@ -158,7 +199,7 @@
   /* ---------- Render: requests dashboard ---------- */
   let filterState = {
     status: ["all"],
-    category: ["MyHealth", "MyRights", "General"],
+    category: ["MyHealth"],
     sort: "new",
   };
 
@@ -233,7 +274,7 @@
   }
 
   /* ---------- Documents ---------- */
-  let docCats = ["MyHealth", "MyRights"];
+  let docCats = ["MyHealth"];
 
   function renderDocList() {
     const wrap = $("#docList");
@@ -263,21 +304,51 @@
     return `<div class="empty"><div class="empty__icon">${icon}</div><p class="empty__title">${title}</p><p class="empty__text">${text}</p></div>`;
   }
 
-  /* ---------- New request: all actions ---------- */
+  /* ---------- New request: favorites + all actions ---------- */
   function resetNewSearch() { const i = $("#newSearch"); if (i) i.value = ""; }
-  function renderAllActions(q) {
-    const wrap = $("#allActionsList");
-    const empty = $("#allActionsEmpty");
-    const list = allActions.filter((a) => a.toLowerCase().includes((q || "").toLowerCase()));
-    empty.hidden = list.length !== 0;
-    wrap.innerHTML = list.map((a) => {
-      const isReimb = a === "Request medical reimbursement";
-      const attr = isReimb ? `data-start-flow="reimbursement"` : `data-toast="“${a}” is not built in this prototype."`;
-      return `<button class="action-row" ${attr}>
-        <span class="dot dot--blue"></span><span class="action-row__label">${a}</span>
+
+  function actionRowHTML(a, showStar) {
+    const star = showStar ? `
+      <button class="star-btn ${a.fav ? "is-fav" : ""}" data-fav="${a.id}" aria-label="${a.fav ? "Remove from favorites" : "Add to favorites"}" aria-pressed="${a.fav}">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="${a.fav ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+      </button>` : "";
+    return `<div class="action-row-wrap">
+      <button class="action-row" ${actionAttrs(a)}>
+        <span class="dot dot--blue"></span>
+        <span class="action-row__label">${a.label}</span>
+        <span class="action-row__spacer"></span>
         <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
-      </button>`;
-    }).join("");
+      </button>
+      ${star}
+    </div>`;
+  }
+
+  function renderActionPanes(q) {
+    const query = (q || "").toLowerCase();
+
+    // Favorites pane
+    const favWrap = $("#favActionsList");
+    const favEmpty = $("#favActionsEmpty");
+    const favs = actions.filter((a) => a.fav && a.label.toLowerCase().includes(query));
+    favEmpty.hidden = favs.length !== 0;
+    favWrap.innerHTML = favs.map((a) => actionRowHTML(a, true)).join("");
+
+    // All actions pane
+    const allWrap = $("#allActionsList");
+    const allEmpty = $("#allActionsEmpty");
+    const list = actions.filter((a) => a.label.toLowerCase().includes(query));
+    allEmpty.hidden = list.length !== 0;
+    allWrap.innerHTML = list.map((a) => actionRowHTML(a, true)).join("");
+  }
+
+  function toggleFavorite(id) {
+    const a = actions.find((x) => x.id === id);
+    if (!a) return;
+    a.fav = !a.fav;
+    const q = ($("#newSearch") || {}).value || "";
+    renderActionPanes(q);
+    renderQuickActions(); // keep homepage quick actions in sync
+    toast(a.fav ? `“${a.label}” added to favorites.` : `“${a.label}” removed from favorites.`);
   }
 
   /* ---------- FAQ ---------- */
@@ -439,9 +510,10 @@
      EVENT WIRING (delegation)
      ============================================================ */
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-nav],[data-open-request],[data-start-flow],[data-toast],[data-upload],[data-scan],[data-scan-receipt],[data-acc],[data-flow-next],[data-close-panel]");
+    const t = e.target.closest("[data-nav],[data-open-request],[data-start-flow],[data-toast],[data-upload],[data-scan],[data-fav],[data-acc],[data-flow-next],[data-close-panel]");
     if (!t) return;
 
+    if (t.hasAttribute("data-fav")) { toggleFavorite(t.dataset.fav); return; }
     if (t.hasAttribute("data-nav")) {
       const n = t.dataset.nav;
       if (n === "assignments") { toast("Assignments are disabled in this prototype."); return; }
@@ -453,7 +525,6 @@
     if (t.hasAttribute("data-toast")) { toast(t.dataset.toast); return; }
     if (t.hasAttribute("data-upload")) { openFilePicker(t.closest(".upload-zone")); return; }
     if (t.hasAttribute("data-scan")) { openCamera(t.closest(".upload-zone")); return; }
-    if (t.hasAttribute("data-scan-receipt")) { openScanReceipt(); return; }
     if (t.hasAttribute("data-close-panel")) { closeFilterPanel(); return; }
     if (t.hasAttribute("data-acc")) {
       const item = t.closest(".acc-item");
@@ -463,6 +534,7 @@
   });
 
   // header buttons
+  $("#btnHome").addEventListener("click", () => navigate("home"));
   $("#btnProfile").addEventListener("click", () => navigate("profile"));
   $("#btnNotifications").addEventListener("click", () => toast("You have 1 notification: info needed for Reimbursement Request 18-06-2026."));
   $("#btnSearch").addEventListener("click", () => { navigate("new"); $("#newSearch").focus(); });
@@ -554,19 +626,21 @@
 
   // search inputs
   $("#newSearch").addEventListener("input", (e) => {
-    // ensure on "all" tab when searching
-    const allTab = $('#newTabs .tab[data-tab="all"]');
+    // jump to "All actions" tab when the user starts typing
     if (e.target.value) {
+      const allTab = $('#newTabs .tab[data-tab="all"]');
       $$('#newTabs .tab').forEach((x) => x.classList.remove("is-active"));
       allTab.classList.add("is-active");
       $$('#screen-new .tabpane').forEach((p) => (p.hidden = p.dataset.pane !== "all"));
     }
-    renderAllActions(e.target.value);
+    renderActionPanes(e.target.value);
   });
   $("#faqSearch").addEventListener("input", (e) => renderFaq(e.target.value));
 
   /* ---------- Init ---------- */
+  renderQuickActions();
   renderActivity();
+  renderActionPanes("");
   renderFaq("");
   navigate("home");
 })();

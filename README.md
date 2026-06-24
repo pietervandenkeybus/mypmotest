@@ -39,21 +39,15 @@ The profile avatar (top-right) opens the **Profile** screen.
 
 ## Screens & functionality
 
-1. **Home / Dashboard** — welcome message, an orange *attention* card, a recent-activity
-   list (status chips + MyHealth/MyRights category chips + status dots), and three quick-action cards.
-2. **Requests** — collapsible **Urgent / Drafts / Requests** sections, category pill filters,
-   and a **filter side panel** (Status, Category, Sort + Apply / Reset). Tapping a card opens a
-   **detail page**. Empty states show when filters match nothing.
-3. **New request** — "What would you like to do today?" with search, **Favorites** and
-   **All actions** tabs. "Request medical reimbursement" launches a 4-step flow:
+1. **Home / Dashboard** — welcome message, an orange *attention* card, **Quick actions** (populated from your favorited actions), then a recent-activity list. Each list card shows its status chip in the upper-right corner and a category chip (MyHealth/MyRights). Clicking the **MyPMO** brand / home icon in the header always returns here.
+2. **Requests** — collapsible **Urgent / Drafts / Requests** sections, category pill filters (**MyHealth active by default**), and a **filter side panel** (Status, Category, Sort + Apply / Reset). Tapping a card opens a **detail page**. Empty states show when filters match nothing.
+3. **New request** — "What would you like to do today?" with search, **Favorites** and **All actions** tabs. Every action has a **star toggle**; favorited actions appear in the Favorites tab *and* as Quick actions on the home screen. "Request medical reimbursement" launches a 4-step flow:
    1. **Define** — beneficiary + reimbursement-type dropdowns, delegation checkbox
-   2. **Upload** — three upload zones (Expense / Supporting / Other), each with an *add files*
-      modal and a *scan* camera mock; plus a **Scan receipt** button
+   2. **Upload** — three upload zones (Expense / Supporting / Other), each with an *add files* modal and a **camera** button that opens a document-photo mock
    3. **Input** — AI-supported automatic fill (the only enabled option) vs. manual (disabled)
-   4. **Review** — summary with editable rows and linked documents → **Submit**
-   On submit, a success screen appears and the new request is **added to the home activity list
-   with status "Submitted"**.
-4. **Documents** — **Documents / Cards / Certificates** tabs with category pill filtering.
+   4. **Review** — every data row has an edit (pencil) icon; **Submit / Save as draft** sit just above the consent note; **Linked documents** is a collapsible container (collapsed by default) → **Submit**
+   On submit, a success screen appears and the new request is **added to the home activity list with status "Submitted"**.
+4. **Documents** — **Documents / Cards / Certificates** tabs with category pill filtering (MyHealth by default).
    Certificates show PDF/QR type and active/deactivated status. The Cards tab shows an empty state.
 5. **Profile** — Marie's details plus My Family, Payment Info, Medical Direct Billing,
    Medical External Insurance, and Medical Record cards (with non-functional *More* links).
