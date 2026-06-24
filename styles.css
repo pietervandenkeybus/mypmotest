@@ -79,7 +79,9 @@ h1,h2,h3,p{margin:0;}
 
 /* ===================== VIEWPORT ===================== */
 .viewport{max-width:980px;margin:0 auto;min-height:calc(100vh - 60px - 76px);}
-.screen__pad{padding:20px 22px 28px;}
+/* Bottom padding clears the fixed bottom nav (~76px) plus safe-area,
+   so trailing content like the step-4 Submit button is never hidden behind it. */
+.screen__pad{padding:20px 22px calc(96px + env(safe-area-inset-bottom));}
 .screen{animation:fade .22s ease;}
 @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
 
