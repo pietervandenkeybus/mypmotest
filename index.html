@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>MyPMO — Self-service portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===================== APP HEADER ===================== -->
+<header class="app-header" role="banner">
+  <div class="app-header__inner">
+    <div class="app-header__brand">
+      <span class="app-header__logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V11h6v10"/></svg>
+      </span>
+      <span class="app-header__name">MyPMO</span>
+    </div>
+    <div class="app-header__actions">
+      <button class="icon-btn" id="btnSearch" aria-label="Search">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <button class="icon-btn icon-btn--badge" id="btnNotifications" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="icon-btn__dot">1</span>
+      </button>
+      <button class="avatar" id="btnProfile" aria-label="Open profile">MP</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MAIN VIEWPORT ===================== -->
+<main class="viewport" id="viewport">
+
+  <!-- ===== HOME ===== -->
+  <section class="screen" id="screen-home" data-screen="home">
+    <div class="screen__pad">
+      <h1 class="welcome">Welcome Marie,</h1>
+
+      <div class="attention-card" id="attentionCard">
+        <div class="attention-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        </div>
+        <div class="attention-card__body">
+          <p class="attention-card__label">Attention</p>
+          <p class="attention-card__text">Additional information is needed for <strong>“Reimbursement Request 18-06-2026”</strong></p>
+        </div>
+        <button class="round-go" data-open-request="r-18" aria-label="Open request needing info">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="section-head">
+        <h2 class="section-title">Recent activity</h2>
+        <a href="#" class="link" data-nav="requests">More</a>
+      </div>
+      <div class="card-list" id="homeActivityList"><!-- injected --></div>
+
+      <div class="section-head"><h2 class="section-title">Quick actions</h2></div>
+      <div class="quick-grid">
+        <button class="quick-card" data-start-flow="reimbursement">
+          <span class="quick-card__icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v3a2 2 0 0 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 0 1 0-4V7a2 2 0 0 0-2-2z"/><path d="M9 9h6M9 13h6"/></svg>
+          </span>
+          <span class="quick-card__text">Request medical reimbursement</span>
+        </button>
+        <button class="quick-card" data-toast="Declare serious illness — flow not built in this prototype.">
+          <span class="quick-card__icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.4 3-5.5A4.5 4.5 0 0 0 12 5 4.5 4.5 0 0 0 2 8.5C2 10.6 3.5 12.5 5 14l7 7z"/></svg>
+          </span>
+          <span class="quick-card__text">Declare serious illness</span>
+        </button>
+        <button class="quick-card" data-toast="Declare bank account — flow not built in this prototype.">
+          <span class="quick-card__icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+          </span>
+          <span class="quick-card__text">Declare bank account</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REQUESTS ===== -->
+  <section class="screen" id="screen-requests" data-screen="requests" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+      </button>
+      <h1 class="sub-head__title">Requests</h1>
+      <div class="sub-head__tools">
+        <button class="icon-btn icon-btn--dark" id="btnFilter" aria-label="Filter requests">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18M6 12h12M10 20h4"/></svg>
+        </button>
+        <button class="icon-btn icon-btn--dark" data-toast="Export — not available in this prototype." aria-label="Export">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="screen__pad">
+      <div class="chip-row" id="reqCategoryChips">
+        <button class="catchip catchip--health is-active" data-cat="MyHealth">MyHealth</button>
+        <button class="catchip catchip--rights is-active" data-cat="MyRights">MyRights</button>
+        <button class="catchip" data-cat="General">General</button>
+      </div>
+
+      <div class="collapse" data-collapse open>
+        <button class="collapse__head"><span>Urgent</span><span class="collapse__chev" aria-hidden="true">⌃</span></button>
+        <div class="collapse__body card-list" id="reqUrgent"></div>
+      </div>
+
+      <div class="collapse" data-collapse>
+        <button class="collapse__head"><span>Drafts</span><span class="collapse__chev" aria-hidden="true">⌃</span></button>
+        <div class="collapse__body card-list" id="reqDrafts"></div>
+      </div>
+
+      <div class="collapse" data-collapse open>
+        <button class="collapse__head"><span>Requests</span><span class="collapse__chev" aria-hidden="true">⌃</span></button>
+        <div class="collapse__body card-list" id="reqAll"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REQUEST DETAIL ===== -->
+  <section class="screen" id="screen-request-detail" data-screen="request-detail" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="requests" aria-label="Back to requests">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+      </button>
+      <h1 class="sub-head__title">Request detail</h1>
+    </div>
+    <div class="screen__pad" id="requestDetailBody"></div>
+  </section>
+
+  <!-- ===== ASSIGNMENTS (disabled placeholder) ===== -->
+  <section class="screen" id="screen-assignments" data-screen="assignments" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">Assignments</h1>
+    </div>
+    <div class="screen__pad">
+      <div class="empty">
+        <div class="empty__icon">🔒</div>
+        <p class="empty__title">Assignments are disabled</p>
+        <p class="empty__text">This section is not part of the current prototype.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEW REQUEST (landing) ===== -->
+  <section class="screen" id="screen-new" data-screen="new" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">New request</h1>
+    </div>
+    <div class="screen__pad">
+      <h2 class="new-hero">What would you like to do today?</h2>
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="newSearch" placeholder="Search actions…" />
+      </div>
+
+      <div class="tabs" id="newTabs">
+        <button class="tab is-active" data-tab="favorites">Favorites</button>
+        <button class="tab" data-tab="all">All actions</button>
+      </div>
+
+      <div class="tabpane" data-pane="favorites">
+        <div class="action-list">
+          <button class="action-row" data-start-flow="reimbursement">
+            <span class="dot dot--blue"></span><span class="action-row__label">Request medical reimbursement</span>
+            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+          </button>
+          <button class="action-row" data-toast="Declare serious illness — flow not built in this prototype.">
+            <span class="dot dot--blue"></span><span class="action-row__label">Declare serious illness</span>
+            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+          </button>
+          <button class="action-row" data-toast="Declare bank account — flow not built in this prototype.">
+            <span class="dot dot--orange"></span><span class="action-row__label">Declare bank account</span>
+            <span class="action-row__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tabpane" data-pane="all" hidden>
+        <div class="action-list" id="allActionsList"></div>
+        <div class="empty empty--inline" id="allActionsEmpty" hidden>
+          <p class="empty__title">No actions found</p>
+          <p class="empty__text">Try a different search term.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FLOW: Request medical reimbursement ===== -->
+  <section class="screen" id="screen-flow" data-screen="flow" hidden>
+    <div class="sub-head">
+      <button class="back-btn" id="flowBack" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">New request</h1>
+    </div>
+    <div class="screen__pad">
+      <ol class="stepper" id="stepper">
+        <li class="stepper__item" data-step="1"><span class="stepper__num">1</span><span class="stepper__label">Define</span></li>
+        <li class="stepper__item" data-step="2"><span class="stepper__num">2</span><span class="stepper__label">Upload</span></li>
+        <li class="stepper__item" data-step="3"><span class="stepper__num">3</span><span class="stepper__label">Input</span></li>
+        <li class="stepper__item" data-step="4"><span class="stepper__num">4</span><span class="stepper__label">Review</span></li>
+      </ol>
+
+      <!-- STEP 1 -->
+      <div class="flow-step" data-flowstep="1">
+        <h2 class="flow-title">Request medical reimbursement</h2>
+        <label class="field">
+          <span class="field__label">Beneficiary <span class="req">*</span></span>
+          <div class="select">
+            <select id="fldBeneficiary">
+              <option>Marie Peeters</option><option>Tom Jansens</option><option>Viktor Jansens</option><option>Maarten Jansens</option><option>Rosalie Jansens</option>
+            </select>
+          </div>
+        </label>
+        <label class="field">
+          <span class="field__label">Reimbursement type <span class="req">*</span></span>
+          <div class="select">
+            <select id="fldType">
+              <option>Standard</option><option>Accident</option><option>Serious Illness</option><option>Occupational Disease</option><option>Health Screening</option>
+            </select>
+          </div>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="fldDelegation" />
+          <span>Staff currently serving or having served in a delegation (outside of the E.U.)</span>
+        </label>
+        <div class="flow-actions">
+          <button class="btn btn--primary btn--block" data-flow-next="2">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="flow-step" data-flowstep="2" hidden>
+        <h2 class="flow-title">To process your request, please provide the required documents.</h2>
+        <div class="upload-zone" data-zone="Expense documents">
+          <p class="upload-zone__label">Expense documents</p>
+          <div class="upload-files" data-files></div>
+          <div class="upload-zone__row">
+            <button class="dropzone" data-upload>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
+              Drag or <u>add files</u>
+            </button>
+            <button class="scan-btn" data-scan aria-label="Scan document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="upload-zone" data-zone="Supporting documents">
+          <p class="upload-zone__label">Supporting documents</p>
+          <div class="upload-files" data-files></div>
+          <div class="upload-zone__row">
+            <button class="dropzone" data-upload>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
+              Drag or <u>add files</u>
+            </button>
+            <button class="scan-btn" data-scan aria-label="Scan document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="upload-zone" data-zone="Other">
+          <p class="upload-zone__label">Other</p>
+          <p class="upload-zone__hint">If you have additional documents that don't fit the categories above, you can upload them here.</p>
+          <div class="upload-files" data-files></div>
+          <div class="upload-zone__row">
+            <button class="dropzone" data-upload>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/></svg>
+              Drag or <u>add files</u>
+            </button>
+            <button class="scan-btn" data-scan aria-label="Scan document">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="flow-actions">
+          <button class="btn btn--ghost" data-scan-receipt>Scan receipt</button>
+          <button class="btn btn--primary btn--block" data-flow-next="3">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="flow-step" data-flowstep="3" hidden>
+        <h2 class="flow-title">How would you like to fill in your request data?</h2>
+        <label class="radio-row is-selected">
+          <input type="radio" name="fillmode" value="ai" checked />
+          <span class="radio-row__main">
+            <span class="radio-row__title">Automatically from uploaded documents <span class="ai-badge">AI supported</span></span>
+          </span>
+        </label>
+        <label class="radio-row is-disabled">
+          <input type="radio" name="fillmode" value="manual" disabled />
+          <span class="radio-row__main">
+            <span class="radio-row__title">Manually fill in the request</span>
+            <span class="radio-row__sub">Not available in this prototype</span>
+          </span>
+        </label>
+        <p class="flow-note">By automatically filling in the data of the request, AI will be used to extract data from the uploaded documents. You will still be able to review it.</p>
+        <div class="flow-actions">
+          <button class="btn btn--primary btn--block" data-flow-next="4">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="flow-step" data-flowstep="4" hidden>
+        <h2 class="flow-title">My request</h2>
+        <div class="review-summary">
+          <div class="review-summary__row"><span class="review-summary__k">Request date</span><span class="review-summary__v">25/06/2026</span></div>
+          <div class="review-summary__row"><span class="review-summary__k">Medical treatment period</span><span class="review-summary__v">20/06/2026</span></div>
+          <div class="review-summary__row"><span class="review-summary__k">Total requested amount</span><span class="review-summary__v">34.50 EUR</span></div>
+        </div>
+        <div class="card review-block">
+          <h3 class="review-block__title">Supporting details</h3>
+          <div class="review-line"><div><p class="review-line__k">Beneficiary</p><p class="review-line__v">Marie Peeters</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit">✎</button></div>
+          <div class="review-line"><div><p class="review-line__k">Treatment details</p><p class="review-line__v">GP Consultation</p></div><button class="pencil" data-toast="Editing is disabled in this prototype." aria-label="Edit">✎</button></div>
+        </div>
+        <div class="card review-block">
+          <h3 class="review-block__title">Linked documents</h3>
+          <div class="review-doc"><span>Expense Document</span><span class="review-doc__go">›</span></div>
+          <div class="review-doc"><span>Supporting Document</span><span class="review-doc__go">›</span></div>
+        </div>
+        <p class="flow-note">By submitting this request, you consent to the processing of your data and confirm that the information provided is accurate and complete.</p>
+        <div class="flow-actions flow-actions--split">
+          <button class="btn btn--ghost" disabled>Save as draft</button>
+          <button class="btn btn--primary" id="btnSubmit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SUCCESS ===== -->
+  <section class="screen" id="screen-success" data-screen="success" hidden>
+    <div class="screen__pad success">
+      <div class="success__check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <p class="success__msg">Your request was submitted successfully.</p>
+      <button class="btn btn--primary btn--block" data-nav="home">Back to homepage</button>
+    </div>
+  </section>
+
+  <!-- ===== DOCUMENTS ===== -->
+  <section class="screen" id="screen-documents" data-screen="documents" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">Documents</h1>
+    </div>
+    <div class="screen__pad">
+      <div class="tabs" id="docTabs">
+        <button class="tab is-active" data-tab="documents">Documents</button>
+        <button class="tab" data-tab="cards">Cards</button>
+        <button class="tab" data-tab="certificates">Certificates</button>
+      </div>
+      <div class="chip-row" id="docCategoryChips">
+        <button class="catchip catchip--health is-active" data-cat="MyHealth">MyHealth</button>
+        <button class="catchip catchip--rights is-active" data-cat="MyRights">MyRights</button>
+      </div>
+      <div class="tabpane" data-pane="documents"><div class="card-list" id="docList"></div></div>
+      <div class="tabpane" data-pane="cards" hidden>
+        <div class="empty"><div class="empty__icon">🪪</div><p class="empty__title">No cards found</p><p class="empty__text">You don't have any cards yet.</p></div>
+      </div>
+      <div class="tabpane" data-pane="certificates" hidden><div class="card-list" id="certList"></div></div>
+    </div>
+  </section>
+
+  <!-- ===== PROFILE ===== -->
+  <section class="screen" id="screen-profile" data-screen="profile" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">Profile</h1>
+    </div>
+    <div class="screen__pad">
+      <div class="card profile-head">
+        <div class="profile-head__avatar">MP</div>
+        <div class="profile-head__info">
+          <p class="profile-head__name">Marie Peeters</p>
+          <p class="profile-head__role">Pensioner</p>
+          <p class="profile-head__meta">marie.peeters@gmail.com&nbsp;·&nbsp;+32 343 43 32 23</p>
+        </div>
+        <button class="link" data-toast="Profile editing is disabled in this prototype.">More</button>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><h3 class="card__title">My Family</h3><button class="link" data-toast="More family details are not available in this prototype.">More</button></div>
+        <ul class="family">
+          <li class="family__item"><span class="family__avatar">TJ</span><div><p class="family__name">Tom Jansens</p><p class="family__sub">Spouse · No medical entitlement</p></div></li>
+          <li class="family__item"><span class="family__avatar">MJ</span><div><p class="family__name">Maarten Jansens</p><p class="family__sub">Child · Accident active until 18-07-2026</p></div></li>
+          <li class="family__item"><span class="family__avatar">VJ</span><div><p class="family__name">Viktor Jansens</p><p class="family__sub">Child · No medical entitlement</p></div></li>
+          <li class="family__item"><span class="family__avatar">RJ</span><div><p class="family__name">Rosalie Jansens</p><p class="family__sub">Child · No medical entitlement</p></div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><h3 class="card__title">Payment Info</h3><button class="link" data-toast="Payment editing is disabled in this prototype.">More</button></div>
+        <p class="kv__k">Active bank account</p>
+        <p class="kv__v mono">BE12 1234 1234 1234</p>
+      </div>
+
+      <div class="profile-grid">
+        <div class="card">
+          <div class="card__head"><h3 class="card__title">Medical Direct Billing</h3><button class="link" data-toast="Not available in this prototype.">More</button></div>
+          <p class="big-stat">Active connections (3)</p>
+        </div>
+        <div class="card">
+          <div class="card__head"><h3 class="card__title">Medical External Insurance</h3><button class="link" data-toast="Not available in this prototype.">More</button></div>
+          <p class="big-stat">Active connections (1)</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><h3 class="card__title">Medical Record</h3><button class="link" data-toast="Not available in this prototype.">More</button></div>
+        <p class="kv__k">Medical entitlement</p>
+        <p class="kv__v">Serious Illness</p>
+        <p class="kv__k" style="margin-top:12px">Status</p>
+        <p><span class="chip chip--validated">Active</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SUPPORT ===== -->
+  <section class="screen" id="screen-support" data-screen="support" hidden>
+    <div class="sub-head">
+      <button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button>
+      <h1 class="sub-head__title">Support</h1>
+    </div>
+    <div class="screen__pad">
+      <div class="card">
+        <h3 class="card__title">FAQ</h3>
+        <div class="search-field search-field--sm">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="faqSearch" placeholder="Search the FAQ…" />
+        </div>
+        <div class="accordion" id="faqAccordion"></div>
+        <div class="empty empty--inline" id="faqEmpty" hidden><p class="empty__title">No questions found</p></div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><h3 class="card__title">Documentation</h3></div>
+        <div class="doc-grid">
+          <button class="doc-tile" data-toast="Documentation is non-functional in this prototype."><span class="doc-tile__icon">💊</span>Medicine</button>
+          <button class="doc-tile" data-toast="Documentation is non-functional in this prototype."><span class="doc-tile__icon">✈️</span>Travel</button>
+          <button class="doc-tile" data-toast="Documentation is non-functional in this prototype."><span class="doc-tile__icon">📘</span>User guides</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card__title">Contact</h3>
+        <p class="kv__k">Phone</p><p class="kv__v mono">0000000000</p>
+        <p class="kv__k" style="margin-top:10px">Email</p><p class="kv__v">exampleemail@pmo.be</p>
+        <button class="btn btn--primary btn--block" style="margin-top:16px" data-toast="Logging a ticket is non-functional in this prototype.">Log a ticket</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== BOTTOM NAV ===================== -->
+<nav class="bottom-nav" role="navigation" aria-label="Primary">
+  <button class="navbtn" data-nav="requests" aria-label="Requests">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2V5a1 1 0 0 1 1-1z"/><path d="M9 4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1"/></svg>
+    <span class="navbtn__label">Requests</span>
+  </button>
+  <button class="navbtn navbtn--disabled" data-nav="assignments" aria-label="Assignments (disabled)" disabled>
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span class="navbtn__label">Assignments</span>
+  </button>
+  <button class="navbtn navbtn--fab" data-nav="new" aria-label="New request">
+    <span class="fab"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </button>
+  <button class="navbtn" data-nav="documents" aria-label="Documents">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="navbtn__label">Documents</span>
+  </button>
+  <button class="navbtn" data-nav="support" aria-label="Support">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span class="navbtn__label">Support</span>
+  </button>
+</nav>
+
+<!-- ===================== OVERLAYS ===================== -->
+<div class="overlay" id="overlay" hidden></div>
+
+<!-- Filter side panel -->
+<aside class="sidepanel" id="filterPanel" hidden aria-label="Filter requests">
+  <div class="sidepanel__head"><h2>Filter by</h2><button class="icon-btn icon-btn--dark" data-close-panel aria-label="Close">✕</button></div>
+  <div class="sidepanel__body">
+    <p class="filter-group__label">Status</p>
+    <div class="filter-options" id="filterStatus">
+      <label class="check"><input type="checkbox" value="all" checked /><span>All</span></label>
+      <label class="check"><input type="checkbox" value="Urgent" /><span>Urgent</span></label>
+      <label class="check"><input type="checkbox" value="Draft" /><span>Draft</span></label>
+      <label class="check"><input type="checkbox" value="Submitted" /><span>Submitted</span></label>
+      <label class="check"><input type="checkbox" value="Validated" /><span>Validated</span></label>
+      <label class="check"><input type="checkbox" value="Declined" /><span>Declined</span></label>
+    </div>
+    <p class="filter-group__label">Category</p>
+    <div class="filter-options" id="filterCategory">
+      <label class="check"><input type="checkbox" value="MyHealth" checked /><span>MyHealth</span></label>
+      <label class="check"><input type="checkbox" value="MyRights" checked /><span>MyRights</span></label>
+      <label class="check"><input type="checkbox" value="General" checked /><span>General</span></label>
+    </div>
+    <p class="filter-group__label">Sort by</p>
+    <div class="filter-options" id="filterSort">
+      <label class="radio"><input type="radio" name="sort" value="new" checked /><span>New to old</span></label>
+      <label class="radio"><input type="radio" name="sort" value="old" /><span>Old to new</span></label>
+    </div>
+  </div>
+  <div class="sidepanel__foot">
+    <button class="btn btn--ghost" id="filterReset">Reset</button>
+    <button class="btn btn--primary" id="filterApply">Apply</button>
+  </div>
+</aside>
+
+<!-- Generic modal -->
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true">
+  <div class="modal__card" id="modalCard"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
